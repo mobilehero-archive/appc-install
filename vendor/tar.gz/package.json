@@ -76,5 +76,6 @@
   "directories": {},
   "_shasum": "e914ce23b2fdc627575fbdb3485a5b228ed59947",
   "_resolved": "https://registry.npmjs.org/tar.gz/-/tar.gz-0.1.1.tgz",
-  "homepage": "https://github.com/cranic/node-tar.gz"
+  "homepage": "https://github.com/cranic/node-tar.gz",
+  "bundledDependencies": ["fstream","tar"]
 }
