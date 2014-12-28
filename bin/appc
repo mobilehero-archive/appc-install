@@ -20,6 +20,11 @@ if (process.argv.length > 2) {
 main();
 
 function main() {
+	// see if setup
+	if (process.argv[2]==='setup') {
+		opts.setup = true;
+		installBin = null;
+	}
 	// if we can't find a suitable install binary, we need to install one
 	if (!installBin || !fs.existsSync(installBin)) {
 		lib.install(util.getInstallDir(), opts);

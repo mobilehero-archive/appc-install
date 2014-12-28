@@ -1,12 +1,13 @@
 {
   "name": "appc-install",
   "version": "0.0.1",
-  "description": "AppC prototype installer",
+  "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "bin": {
     "appc": "./bin/appc",
     "appcelerator": "./bin/appc"
   }, 
   "author": "Jeff Haynie",
-  "license": "Apache2"
+  "license": "Apache2",
+  "preferGlobal": true
 }
