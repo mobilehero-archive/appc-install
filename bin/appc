@@ -3,7 +3,8 @@
 var fs = require('fs'),
 	util = require('../lib/util'),
 	opts = util.parseOpts(),
-	lib = require('../'),
+	args = util.parseArgs(),
+	lib = require('../lib/index'),
 	installBin = util.getInstallBinary(opts);
 
 // see if this is a use command
@@ -16,21 +17,38 @@ if (process.argv.length > 2) {
 	}
 }
 
-// run our program
-main();
+function after(err, installDir, version, installBin) {
+	if (opts.setup) {
+		// save our version
+		util.writeVersion(version);
+		var chalk = require('../vendor/chalk');
+		console.log();
+		console.log(chalk.yellow('Appcelerator login required. Please login now...'));
+		console.log(chalk.yellow(chalk.dim('If you do not yet have an account, please visit '+chalk.underline('http://www.appcelerator.com/signup'))));
+		console.log();
+		// run our login
+		process.argv[2] = 'login';
+		process.argv[3] = '--no-banner';
+		process.argv.length = 4;
+		lib.run(installBin);
+	}
+}
 
 function main() {
 	// see if setup
-	if (process.argv[2]==='setup') {
+	if (args[0]==='setup') {
 		opts.setup = true;
 		installBin = null;
 	}
 	// if we can't find a suitable install binary, we need to install one
 	if (!installBin || !fs.existsSync(installBin)) {
-		lib.install(util.getInstallDir(), opts);
+		lib.install(util.getInstallDir(), opts, after);
 	}
 	// otherwise, we should just run 
 	else {
 		lib.run(installBin);
 	}
 }
+
+// run our program
+main();
