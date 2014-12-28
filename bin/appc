@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+	util = require('../lib/util'),
+	opts = util.parseOpts(),
+	lib = require('../'),
+	installBin = util.getInstallBinary(opts);
+
+// see if this is a use command
+if (process.argv.length > 2) {
+	if (process.argv[2]==='use') {
+		return lib.use(opts, function(err, bin) {
+			installBin = bin;
+			main();
+		});
+	}
+}
+
+// run our program
+main();
+
+function main() {
+	// if we can't find a suitable install binary, we need to install one
+	if (!installBin || !fs.existsSync(installBin)) {
+		lib.install(util.getInstallDir(), opts);
+	}
+	// otherwise, we should just run 
+	else {
+		lib.run(installBin);
+	}
+}
