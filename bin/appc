@@ -42,6 +42,7 @@ function main() {
 	}
 	// if we can't find a suitable install binary, we need to install one
 	if (!installBin || !fs.existsSync(installBin)) {
+		opts.setup = true;
 		lib.install(util.getInstallDir(), opts, after);
 	}
 	// otherwise, we should just run 
