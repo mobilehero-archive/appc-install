@@ -45,3 +45,4 @@ if (!bin) {
 // the module we're delegating to as if we had loaded it directly
 var pkgdir = path.join(path.dirname(bin),'..');
 module.exports = require(pkgdir);
+
