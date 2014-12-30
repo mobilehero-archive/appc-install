@@ -1,6 +1,6 @@
 {
   "name": "appc-install",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "bin": {
