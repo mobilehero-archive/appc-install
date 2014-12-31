@@ -64,7 +64,7 @@ TarGz = (function() {
       return fstream.Reader({
         path: source,
         type: 'File'
-      }).pipe(zlib.createGunzip()).pipe(tar.Extract({
+      }).on('error',callback).pipe(zlib.createGunzip()).pipe(tar.Extract({
         path: destination
       })).on('end', function() {
         if (typeof callback === 'function') {
