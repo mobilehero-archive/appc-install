@@ -70,7 +70,7 @@ TarGz = (function() {
         if (typeof callback === 'function') {
           return callback(null);
         }
-      });
+      }).on('error',callback); //JGH: patch
     });
     return this;
   };
