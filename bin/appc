@@ -71,7 +71,7 @@ function subprocess(cmd, installBin) {
 	env.APPC_VERSION_DIR = pkg;
 	env.APPC_SUBPROCESS = 1;
 
-	// attemp to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
+	// attempt to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
 	try {
  		bin = which.sync(cmd)
 	}
