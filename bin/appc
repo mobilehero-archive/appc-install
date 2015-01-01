@@ -1,41 +1,85 @@
 #!/usr/bin/env node
 
 var fs = require('fs'),
+	path = require('path'),
 	util = require('../lib/util'),
+	lib = require('../lib/index'),
 	opts = util.parseOpts(),
 	args = util.parseArgs(),
-	lib = require('../lib/index'),
 	installBin = util.getInstallBinary(opts);
 
-
-// see if this is a use command
-if (process.argv.length > 2) {
-	if (process.argv[2]==='use') {
-		return lib.use(opts, function(err, bin) {
-			installBin = bin;
-			main();
-		});
-	}
-}
 
 function after(err, installDir, version, installBin) {
 	if (opts.setup) {
 		// save our version
 		util.writeVersion(version);
-		var chalk = require('../vendor/chalk');
-		console.log();
-		console.log(chalk.yellow('Appcelerator login required. Please login now...'));
-		console.log(chalk.yellow(chalk.dim('If you do not yet have an account, please visit '+chalk.underline('http://www.appcelerator.com/signup'))));
-		console.log();
-		// run our login
-		process.argv[2] = 'login';
-		process.argv[3] = '--no-banner';
-		process.argv.length = 4;
-		lib.run(installBin);
+
+		var appc = util.getAppcDir(),
+			appcli = path.join(appc, 'appc-cli.json');
+
+		// if we don't have this file, we need to prompt for login for first-run
+		if (!fs.existsSync(appcli)) {
+			var chalk = require('../vendor/chalk');
+			console.log();
+			console.log(chalk.yellow('Appcelerator login required. Please login now...'));
+			console.log(chalk.yellow(chalk.dim('If you do not yet have an account, please visit '+chalk.underline('http://www.appcelerator.com/signup'))));
+			console.log();
+			// run our login
+			process.argv[2] = 'login';
+			process.argv[3] = '--no-banner';
+			process.argv.length = 4;
+			lib.run(installBin);
+		}
+		else {
+			// no need to re-run login. we're already setup
+			process.exit(0);
+		}
 	}
 }
 
 function main() {
+	// see if this is a use command
+	if (process.argv.length > 2) {
+		if (process.argv[2]==='use') {
+			return lib.use(opts, function(err, bin) {
+				installBin = bin;
+				main();
+			});
+		}
+		else {
+			if (opts.version) {
+				// if we aren't asking to print out the version but to use a specific version
+				// we will set the version (remove the --version from args) and then run command
+				// with this version
+				if (opts.version!==true) {
+					// set it explicitly by passing the version (otherwise will resolve to available)
+					// if it doesn't explicitly find it, will return null and then install below
+					installBin = util.getInstallBinary(opts,opts.version);
+					// delete --version so we don't add to pass through args
+					var _args = [];
+					for (var c=0;c<process.argv.length;c++) {
+						var match = /^--version(=?)/.exec(process.argv[c]);
+						if (match) {
+							// if this is --version x.x.x we need to skip the next arg too
+							if (!match[1]) {
+								c++;
+							}
+							continue;
+						}
+						else {
+							_args.push(process.argv[c]);
+						}
+					}
+					process.argv = _args;
+					if (!installBin) {
+						// doesn't exist so we need to first install and then run it, but do it
+						// here so that after doesn't get used below
+						return lib.install(util.getInstallDir(), opts);
+					}
+				}
+			}
+		}
+	}
 	// see if setup
 	if (args[0]==='setup') {
 		opts.setup = true;

@@ -90,6 +90,22 @@ describe('util', function(){
 			should(Object.keys(opts)).have.length(0);
 		});
 
+		it('remove arg from version (with equal)',function(){
+			process.argv = process.argv.slice(0,2).concat(['--version=0.0.117']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs();
+			should(opts).have.property('version','0.0.117');
+			should(Object.keys(args)).have.length(0);
+		});
+
+		it('remove arg from version (without equal)',function(){
+			process.argv = process.argv.slice(0,2).concat(['--version','0.0.117']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs();
+			should(opts).have.property('version','0.0.117');
+			should(Object.keys(args)).have.length(0);
+		});
+
 	});
 
 	describe('should makeURL', function(){
