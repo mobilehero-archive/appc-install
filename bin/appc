@@ -93,7 +93,6 @@ function subprocess(cmd, installBin) {
 				break;
 			}
 			case 'acs': {
-				// try to find the npm version first, then fall back to our bundled version
 				bin = path.join(pkg, 'node_modules','apibuilder','node_modules','acs','bin','acs');
 				break;
 			}
