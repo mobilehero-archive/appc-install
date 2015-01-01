@@ -40,9 +40,9 @@ function main() {
 	// see if this is a use command
 	if (process.argv.length > 2) {
 		if (process.argv[2]==='use') {
-			return lib.use(opts, function(err, bin) {
-				installBin = bin;
-				main();
+			return lib.use(opts, function() {
+				// if we get here, we didn't find a version and we need to install it
+				return lib.install(util.getInstallDir(), opts);
 			});
 		}
 		else {

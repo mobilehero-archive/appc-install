@@ -1,6 +1,6 @@
 {
   "name": "appc-install",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
