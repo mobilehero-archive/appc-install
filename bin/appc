@@ -5,7 +5,7 @@ var fs = require('fs'),
 	util = require('../lib/util'),
 	lib = require('../lib/index'),
 	opts = util.parseOpts(),
-	args = util.parseArgs(),
+	args = util.parseArgs(opts),
 	installBin = util.getInstallBinary(opts);
 
 
@@ -36,10 +36,78 @@ function after(err, installDir, version, installBin) {
 	}
 }
 
+// any of these subcommands will be passed
+var bundledSubcommands = /^(titanium|ti|alloy|acs)$/;
+
+/**
+ * support delegating to these bundled binaries in the case
+ * they are not already installed as standalone binaries.
+ * this is also a nice compromise for all the functionality we
+ * aren't going to include directly in the appc CLI such that
+ * we can still provide more advanced capabilities directly
+ * through these underlying CLIs
+ */
+function subprocess(cmd, installBin) {
+	var which = require('../vendor/which'),
+		spawn = require('child_process').spawn,
+		pkg = path.join(installBin, '..','..'),
+		version = path.basename(path.dirname(pkg)),
+		argv = [],
+		bin =  which.sync(cmd),
+		env = process.env,
+		argopts = { env: env, stdio:'inherit' };
+
+	// re-create args exactly as passed in but remove our subcommand
+	var _args = process.argv.splice(2)
+	for (var c=0;c<_args.length;c++) {
+		var arg = _args[c];
+		if (arg!==cmd) {
+			argv.push(arg);
+		}
+	}
+
+	// set some special environment variables that can be used inside this scripts eventually if necessary
+	env.APPC_VERSION = version;
+	env.APPC_VERSION_DIR = pkg;
+	env.APPC_SUBPROCESS = 1;
+
+	// try to find the npm version first (above in which), then fall back to our bundled version if
+	// the user doesn't have them installed globally. this has the advantage that you can use a different
+	// global version if installed already but also doesn't require to be installed if you install appc
+	if (!bin) {
+		switch(cmd) {
+			case 'titanium':
+			case 'ti': {
+				bin = path.join(pkg, 'node_modules','appc-cli-titanium','node_modules','titanium','bin','titanium');
+				break;
+			}
+			case 'alloy': {
+				bin = path.join(pkg, 'node_modules','appc-cli-titanium','node_modules','alloy','bin','alloy');
+				break;
+			}
+			case 'acs': {
+				// try to find the npm version first, then fall back to our bundled version
+				bin = path.join(pkg, 'node_modules','apibuilder','node_modules','acs','bin','acs');
+				break;
+			}
+		}
+	}
+
+	if (!fs.existsSync(bin)) {
+		util.fail("Cannot find expected binary at "+bin+". This likely means the install package at "+pkg+" is invalid for version :"+version);
+	}
+
+	var child = spawn(bin, argv, argopts);
+	child.on('error', function(err){
+		util.fail(err);
+	});
+}
+
 function main() {
+	var subcommand = args[0];
 	// see if this is a use command
 	if (process.argv.length > 2) {
-		if (process.argv[2]==='use') {
+		if (subcommand==='use') {
 			return lib.use(opts, function() {
 				// if we get here, we didn't find a version and we need to install it
 				return lib.install(util.getInstallDir(), opts);
@@ -93,6 +161,12 @@ function main() {
 	else {
 		// first update check if required
 		util.updateCheck(opts, function(){
+
+			// check to see if this is a bundled subcommand
+			if (bundledSubcommands.test(subcommand)){
+				return subprocess(subcommand,installBin);
+			}
+
 			// now run
 			lib.run(installBin);
 		});

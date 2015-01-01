@@ -12,14 +12,14 @@ describe('util', function(){
 
 		it('as single arg',function(){
 			process.argv = process.argv.slice(0,2).concat(['foo']);
-			var args = util.parseArgs();
+			var args = util.parseArgs({});
 			should(args).containEql('foo');
 			should(args).have.length(1);
 		});
 
 		it('as multiple args',function(){
 			process.argv = process.argv.slice(0,2).concat(['foo','bar']);
-			var args = util.parseArgs();
+			var args = util.parseArgs({});
 			should(args).containEql('foo');
 			should(args).containEql('bar');
 			should(args).have.length(2);
@@ -27,7 +27,7 @@ describe('util', function(){
 
 		it('skip options after',function(){
 			process.argv = process.argv.slice(0,2).concat(['foo','--bar']);
-			var args = util.parseArgs();
+			var args = util.parseArgs({});
 			should(args).containEql('foo');
 			should(args).not.containEql('bar');
 			should(args).have.length(1);
@@ -35,7 +35,7 @@ describe('util', function(){
 
 		it('skip options before',function(){
 			process.argv = process.argv.slice(0,2).concat(['--foo','bar']);
-			var args = util.parseArgs();
+			var args = util.parseArgs({});
 			should(args).not.containEql('foo');
 			should(args).containEql('bar');
 			should(args).have.length(1);
@@ -93,7 +93,7 @@ describe('util', function(){
 		it('remove arg from version (with equal)',function(){
 			process.argv = process.argv.slice(0,2).concat(['--version=0.0.117']);
 			var opts = util.parseOpts();
-			var args = util.parseArgs();
+			var args = util.parseArgs(opts);
 			should(opts).have.property('version','0.0.117');
 			should(Object.keys(args)).have.length(0);
 		});
@@ -101,8 +101,24 @@ describe('util', function(){
 		it('remove arg from version (without equal)',function(){
 			process.argv = process.argv.slice(0,2).concat(['--version','0.0.117']);
 			var opts = util.parseOpts();
-			var args = util.parseArgs();
+			var args = util.parseArgs(opts);
 			should(opts).have.property('version','0.0.117');
+			should(Object.keys(args)).have.length(0);
+		});
+
+		it('support single dash (without equal)',function(){
+			process.argv = process.argv.slice(0,2).concat(['-o','json']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs(opts);
+			should(opts).have.property('o','json');
+			should(Object.keys(args)).have.length(0);
+		});
+
+		it('support single dash (with equal)',function(){
+			process.argv = process.argv.slice(0,2).concat(['-o=json']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs(opts);
+			should(opts).have.property('o','json');
 			should(Object.keys(args)).have.length(0);
 		});
 
