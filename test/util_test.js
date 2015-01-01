@@ -1,6 +1,7 @@
 var should = require('should'),
 	wrench = require('wrench'),
 	fs = require('fs'),
+	path = require('path'),
 	chalk = require('../vendor/chalk'),
 	util = require('../lib/util');
 
@@ -210,6 +211,92 @@ describe('util', function(){
 			util.fail('a');
 			should(code).be.equal(1);
 			should(message).be.equal('\na\n');
+		});
+
+	});
+
+	describe('should canWriteDir', function(done){
+
+		if (process.platform === 'win32' || process.TRAVIS) {
+			return;
+		}
+		this.timeout(30000);
+
+
+		var exec = require('child_process').exec;
+
+		var USERWRITABLE = { dir: './tmp-uw', perm: '0755', user: process.env.USER, result: true, message:'user should be writable', skip:false },
+			USERNOTWRITABLE = { dir: './tmp-unw', perm: '0755', user: 'root', result: false, message:'user should not be writable', skip:false },
+			GROUPWRITABLE = { dir: './tmp-gw', perm: '0770', user: 'root', result: true, message:'group should be writable', skip:false },
+			GROUPNOTWRITABLE = { dir:'./tmp-gnw', perm: '0700', user: 'root', result: false, message:'group should not be writable', skip:false },
+			WORLDWRITABLE = { dir:'./tmp-ww', perm: '0777', user: 'root', result: true, message:'all should be writable', skip:false },
+			WORLDNOTWRITABLE = { dir:'./tmp-wnw', perm: '0700', user: 'root', result: false, message:'all should not be writable', skip:false },
+			DIRS = [USERWRITABLE, USERNOTWRITABLE, GROUPWRITABLE, GROUPNOTWRITABLE, WORLDWRITABLE, WORLDNOTWRITABLE];
+
+
+		function makedirs(cb) {
+			var index = 0;
+			function makeNextDir() {
+				var entry = DIRS[index++];
+				if (entry) {
+					try {
+						if (!entry.skip) {
+							var dirpath = path.join(__dirname, entry.dir),
+								prefix = entry.user==='root' ? 'sudo' : '',
+								cmd = prefix+' mkdir '+dirpath+'; '+prefix+' chmod '+entry.perm+' '+dirpath;
+							// console.log(entry.message, '->', cmd);
+							exec(cmd, makeNextDir);
+						}
+						else {
+							makeNextDir();
+						}
+					}
+					catch (e) {
+						makeNextDir();
+					}
+				}
+				else {
+					cb();
+				}
+			}
+			makeNextDir();
+		}
+
+		function cleanup (cb) {
+			var index = 0;
+			function deleteNextDir(err) {
+				if (err) { console.error(err); }
+				var entry = DIRS[index++];
+				if (entry) {
+					try {
+						var dirpath = path.join(__dirname, entry.dir),
+							cmd = 'sudo rm -rf '+dirpath;
+						// console.log(cmd);
+						exec(cmd, deleteNextDir);
+					}
+					catch (e) {
+						deleteNextDir();
+					}
+				}
+				else {
+					cb();
+				}
+			}
+			deleteNextDir();
+		}
+
+		before(function(cb) {
+			console.log(chalk.blue('this test requires sudo ... you may need to enter your root password below'));
+			makedirs(cb);
+		});
+
+		after(cleanup);
+
+		DIRS.forEach(function(entry){
+			(entry.skip?it.skip:it)(entry.message, function(){
+				var dirpath = path.join(__dirname, entry.dir);
+				should(util.canWriteDir(dirpath)).be.equal(entry.result);
+			});
 		});
 
 	});

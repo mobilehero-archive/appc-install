@@ -7,6 +7,7 @@ var fs = require('fs'),
 	lib = require('../lib/index'),
 	installBin = util.getInstallBinary(opts);
 
+
 // see if this is a use command
 if (process.argv.length > 2) {
 	if (process.argv[2]==='use') {
