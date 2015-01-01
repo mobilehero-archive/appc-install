@@ -53,7 +53,7 @@ function subprocess(cmd, installBin) {
 		pkg = path.join(installBin, '..','..'),
 		version = path.basename(path.dirname(pkg)),
 		argv = [],
-		bin =  which.sync(cmd),
+		bin,
 		env = process.env,
 		argopts = { env: env, stdio:'inherit' };
 
@@ -70,6 +70,13 @@ function subprocess(cmd, installBin) {
 	env.APPC_VERSION = version;
 	env.APPC_VERSION_DIR = pkg;
 	env.APPC_SUBPROCESS = 1;
+
+	// attemp to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
+	try {
+ 		bin = which.sync(cmd)
+	}
+	catch (E){
+	}
 
 	// try to find the npm version first (above in which), then fall back to our bundled version if
 	// the user doesn't have them installed globally. this has the advantage that you can use a different
