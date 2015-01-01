@@ -14,8 +14,7 @@ function after(err, installDir, version, installBin) {
 		// save our version
 		util.writeVersion(version);
 
-		var appc = util.getAppcDir(),
-			appcli = path.join(appc, 'appc-cli.json');
+		var appcli = util.getConfigFile();
 
 		// if we don't have this file, we need to prompt for login for first-run
 		if (!fs.existsSync(appcli)) {
@@ -92,7 +91,11 @@ function main() {
 	}
 	// otherwise, we should just run 
 	else {
-		lib.run(installBin);
+		// first update check if required
+		util.updateCheck(opts, function(){
+			// now run
+			lib.run(installBin);
+		});
 	}
 }
 
