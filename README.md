@@ -1,14 +1,18 @@
-# Appcelerator Installer [![Build Status](https://travis-ci.org/appcelerator/appc-install.svg?branch=master)](https://travis-ci.org/appcelerator/appc-install)
+# Appcelerator Installer [![Build Status](https://travis-ci.org/appcelerator/appc-install.svg?branch=master)](https://travis-ci.org/appcelerator/appc-install) [![npm version](https://badge.fury.io/js/appcelerator.svg)](http://badge.fury.io/js/appcelerator)
 
 This is the installer for the Appcelerator Platform software stack.
+
+> WARNING. This software is not yet released or ready for use. Please check back soon!
 
 ## Installation
 
 Install globally using npm such as:
 
 ```bash
-$ sudo npm install appc-install -g
+$ sudo npm install appcelerator -g
 ```
+
+This adds two binary executable commands: `appcelerator` or the shortcut `appc`.
 
 Once installed, you should run setup such as:
 
