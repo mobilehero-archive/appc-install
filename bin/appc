@@ -3,6 +3,7 @@
 var fs = require('fs'),
 	path = require('path'),
 	util = require('../lib/util'),
+	error = require('../lib/error'),
 	lib = require('../lib/index'),
 	opts = util.parseOpts(),
 	args = util.parseArgs(opts),
@@ -58,7 +59,7 @@ function subprocess(cmd, installBin) {
 		argopts = { env: env, stdio:'inherit' };
 
 	// re-create args exactly as passed in but remove our subcommand
-	var _args = process.argv.splice(2)
+	var _args = process.argv.splice(2);
 	for (var c=0;c<_args.length;c++) {
 		var arg = _args[c];
 		if (arg!==cmd) {
@@ -73,7 +74,7 @@ function subprocess(cmd, installBin) {
 
 	// attempt to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
 	try {
- 		bin = which.sync(cmd)
+		bin = which.sync(cmd);
 	}
 	catch (E){
 	}
@@ -99,13 +100,15 @@ function subprocess(cmd, installBin) {
 		}
 	}
 
+	// console.log(bin);
+
 	if (!fs.existsSync(bin)) {
-		util.fail("Cannot find expected binary at "+bin+". This likely means the install package at "+pkg+" is invalid for version :"+version);
+		error.failWithError('com.appcelerator.install.binary.missing',bin,pkg,version);
 	}
 
 	var child = spawn(bin, argv, argopts);
 	child.on('error', function(err){
-		util.fail(err);
+		error.failWithError('com.appcelerator.install.binary.error',bin,err.message||String(err));
 	});
 }
 

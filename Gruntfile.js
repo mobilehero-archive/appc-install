@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 			options: {
 				jshintrc: true
 			},
-			src: ['index.js', 'lib/**/*.js', 'test/**/*.js']
+			src: ['bin/appc','index.js', 'lib/**/*.js', 'test/**/*.js']
 		},
 		kahvesi: { src: tests },
 		clean: ['tmp']
