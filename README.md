@@ -6,10 +6,10 @@ This is the installer for the Appcelerator Platform software stack.
 
 ## Installation
 
-Install globally using npm such as:
+Install globally using npm such as (if using Windows, don't use sudo prefix):
 
 ```bash
-$ sudo npm install appcelerator -g
+$ [sudo] npm install appcelerator -g
 ```
 
 This adds two binary executable commands: `appcelerator` or the shortcut `appc`.
