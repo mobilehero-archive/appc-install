@@ -1,4 +1,4 @@
-# Appcelerator Installer
+# Appcelerator Installer [![Build Status](https://travis-ci.org/appcelerator/appc-install.svg?branch=master)](https://travis-ci.org/appcelerator/appc-install)
 
 This is the installer for the Appcelerator Platform software stack.
 
