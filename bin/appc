@@ -49,7 +49,7 @@ var bundledSubcommands = /^(titanium|ti|alloy|acs)$/;
  * through these underlying CLIs
  */
 function subprocess(cmd, installBin) {
-	var which = require('../vendor/which'),
+	var which = require('which'),
 		spawn = require('child_process').spawn,
 		pkg = path.join(installBin, '..','..'),
 		version = path.basename(path.dirname(pkg)),
@@ -113,32 +113,7 @@ function subprocess(cmd, installBin) {
 	});
 }
 
-function showBanner(opts) {
-	// skip banner if provided
-	if (opts.banner===false || opts.quiet) { return; }
-	console.log();
-	// 99 is the minimum width to show the big banner, else we show the puny one
-	if (process.stdout.columns < 99) {
-		console.log(red("Appcelerator")+grey("®"));
-	}
-	else {
-		var chalk = require('chalk'),
-			red = chalk.red,
-			grey = chalk.grey;
-		console.log(red(" █████")+grey("╗")+red(" ██████")+grey("╗")+red(" ██████")+grey("╗")+red("  ██████")+grey("╗")+red("███████")+grey("╗")+red("██")+grey("╗")+red("     ███████")+grey("╗")+red("██████")+grey("╗")+red("  █████")+grey("╗")+red(" ████████")+grey("╗")+red(" ██████")+grey("╗")+red(" ██████")+grey("╗ ®"));
-		console.log(red("██")+grey("╔══")+red("██")+grey("╗")+red("██")+grey("╔══")+red("██")+grey("╗")+red("██")+grey("╔══")+red("██")+grey("╗")+red("██")+grey("╔════╝")+red("██")+grey("╔════╝")+red("██")+grey("║     ")+red("██")+grey("╔════╝")+red("██")+grey("╔══")+red("██")+grey("╗")+red("██")+grey("╔══")+red("██")+grey("╗╚══")+red("██")+grey("╔══╝")+red("██")+grey("╔═══")+red("██")+grey("╗")+red("██")+grey("╔══")+red("██")+grey("╗"));
-		console.log(red("███████")+grey("║")+red("██████")+grey("╔╝")+red("██████")+grey("╔╝")+red("██")+grey("║     ")+red("█████")+grey("╗  ")+red("██")+grey("║     ")+red("█████")+grey("╗  ")+red("██████")+grey("╔╝")+red("███████")+grey("║   ")+red("██")+grey("║   ")+red("██")+grey("║   ")+red("██")+grey("║")+red("██████")+grey("╔╝"));
-		console.log(red("██")+grey("╔══")+red("██")+grey("║")+red("██")+grey("╔═══╝ ")+red("██")+grey("╔═══╝ ")+red("██")+grey("║     ")+red("██")+grey("╔══╝  ")+red("██")+grey("║     ")+red("██")+grey("╔══╝  ")+red("██")+grey("╔══")+red("██")+grey("╗")+red("██")+grey("╔══")+red("██")+grey("║   ")+red("██")+grey("║   ")+red("██")+grey("║   ")+red("██")+grey("║")+red("██")+grey("╔══")+red("██")+grey("╗"));
-		console.log(red("██")+grey("║  ")+red("██")+grey("║")+red("██")+grey("║     ")+red("██")+grey("║     ╚")+red("██████")+grey("╗")+red("███████")+grey("╗")+red("███████")+grey("╗")+red("███████")+grey("╗")+red("██")+grey("║  ")+red("██")+grey("║")+red("██")+grey("║  ")+red("██")+grey("║   ")+red("██")+grey("║   ╚")+red("██████")+grey("╔╝")+red("██")+grey("║  ")+red("██")+grey("║"));
-		console.log(grey("╚═╝  ╚═╝╚═╝     ╚═╝      ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝"));
-	}
-	console.log();
-}
-
 function main() {
-
-	// show our banner
-	showBanner(opts);
 
 	var subcommand = args[0];
 
