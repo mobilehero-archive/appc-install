@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -32,5 +32,19 @@
     "grunt-mocha-test": "^0.12.1",
     "should": "^4.0.4",
     "lodash": "^2.4.1"
+  },
+  "bundleDependencies": [
+    "request",
+    "chalk",
+    "progress",
+    "tar.gz",
+    "which"
+  ],
+  "dependencies": {
+    "chalk": "0.5.1",
+    "progress": "1.1.8",
+    "request": "2.51.0",
+    "tar.gz": "0.1.1",
+    "which": "1.0.8"
   }
 }

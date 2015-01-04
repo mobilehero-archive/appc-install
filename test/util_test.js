@@ -1,7 +1,7 @@
 var should = require('should'),
 	fs = require('fs'),
 	path = require('path'),
-	chalk = require('../vendor/chalk'),
+	chalk = require('chalk'),
 	util = require('../lib/util');
 
 

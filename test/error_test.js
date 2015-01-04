@@ -2,7 +2,7 @@ var should = require('should'),
 	_ = require('lodash'),
 	u = require('../lib/util'),
 	util = require('util'),
-	chalk = require('../vendor/chalk'),
+	chalk = require('chalk'),
 	errorlib = require('../lib/error');
 
 describe('error', function(){
