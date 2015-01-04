@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -31,7 +31,6 @@
     "grunt-kahvesi": "0.2.0-dev2",
     "grunt-mocha-test": "^0.12.1",
     "should": "^4.0.4",
-    "wrench": "*",
     "lodash": "^2.4.1"
   }
 }

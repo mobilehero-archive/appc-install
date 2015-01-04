@@ -1,5 +1,4 @@
 var should = require('should'),
-	wrench = require('wrench'),
 	fs = require('fs'),
 	path = require('path'),
 	chalk = require('../vendor/chalk'),
@@ -185,7 +184,7 @@ describe('util', function(){
 
 		function cleanup() {
 			try {
-				wrench.rmdirSyncRecursive(TMPDIR);
+				util.rmdirSyncRecursive(TMPDIR);
 			}
 			catch (E) {
 			}
