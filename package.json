@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -37,14 +37,14 @@
     "request",
     "chalk",
     "progress",
-    "tar.gz",
+    "tar",
     "which"
   ],
   "dependencies": {
     "chalk": "0.5.1",
     "progress": "1.1.8",
     "request": "2.51.0",
-    "tar.gz": "0.1.1",
+    "tar": "1.0.3",
     "which": "1.0.8"
   }
 }
