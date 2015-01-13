@@ -49,4 +49,4 @@ The following versions are available:
 
 ## Legal
 
-Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.  This software is licensed under the Apache 2 Public License.  However, usage of the software to access the Appcelerator Platform is governed by the Appcelerator Enterprise Software License Agreement.
+This code is closed source and Confidential and Proprietary to Appcelerator, Inc. All Rights Reserved.  This code MUST not be modified, copy or otherwise redistributed without expression written permission of Appcelerator. This file is licensed as part of the Appcelerator Platform and governed under the terms of the Appcelerator license agreement.  Your right to use this software terminates when you terminate your Appcelerator subscription.

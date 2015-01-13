@@ -1,10 +1,10 @@
 {
   "name": "appcelerator",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
-  "license": "Apache2",
+  "license": "Appcelerator Software License (non-open source)",
   "preferGlobal": true,
   "bin": {
     "appc": "./bin/appc",
@@ -21,7 +21,9 @@
   "keywords": [
     "appcelerator",
     "titanium",
-    "apibuilder"
+    "apibuilder",
+    "acs",
+    "appcelerator cloud"
   ],
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -34,7 +36,7 @@
     "lodash": "^2.4.1"
   },
   "bundleDependencies": [
-    "request",
+    "request-ssl",
     "chalk",
     "progress",
     "tar",
@@ -43,7 +45,7 @@
   "dependencies": {
     "chalk": "0.5.1",
     "progress": "1.1.8",
-    "request": "2.51.0",
+    "request-ssl": "0.0.3",
     "tar": "1.0.3",
     "which": "1.0.8"
   }

@@ -1,3 +1,11 @@
+/**
+ * This code is closed source and Confidential and Proprietary to
+ * Appcelerator, Inc. All Rights Reserved.  This code MUST not be
+ * modified, copy or otherwise redistributed without expression
+ * written permission of Appcelerator. This file is licensed as
+ * part of the Appcelerator Platform and governed under the terms
+ * of the Appcelerator license agreement.
+ */
 var should = require('should'),
 	fs = require('fs'),
 	path = require('path'),
@@ -332,4 +340,17 @@ describe('util', function(){
 
 	});
 
+	describe('registry', function(){
+		this.timeout(10000);
+		it('should validate fingerprint',function(done){
+			util.getRequest().get(util.makeURL('/'), function(err,resp,body) {
+				should(err).be.null;
+				should(body).be.a.string;
+				should(util.getRequest().getLastURL()).be.a.string;
+				should(util.getRequest().getLastURL()+'/').be.eql(util.makeURL(''));
+				done();
+			});
+		});
+
+	});
 });
