@@ -12,12 +12,15 @@ var fs = require('fs'),
 	util = require('../lib/util'),
 	error = require('../lib/error'),
 	lib = require('../lib/index'),
+	debug = require('debug')('appc:bin'),
 	opts = util.parseOpts(),
 	args = util.parseArgs(opts),
 	installBin = util.getInstallBinary(opts);
 
 
 function after(err, installDir, version, installBin) {
+	debug('after called with %o',arguments);
+
 	if (opts.setup) {
 		// save our version
 		util.writeVersion(version);
@@ -35,6 +38,7 @@ function after(err, installDir, version, installBin) {
 			process.argv[2] = 'login';
 			process.argv[3] = '--no-banner';
 			process.argv.length = 4;
+			debug('calling lib run %s',installBin);
 			lib.run(installBin);
 		}
 		else {
@@ -113,6 +117,8 @@ function subprocess(cmd, installBin) {
 		error.failWithError('com.appcelerator.install.binary.missing',bin,pkg,version);
 	}
 
+	debug('calling spawn with %s, bin=%s, argv=%j, argopts=%j',process.execPath,bin,argv,argopts);
+
 	// for windows, we need to actually run from node since these binaries aren't setup with cmd.exe
 	var child = spawn(process.execPath,[bin].concat(argv), argopts);
 	child.on('error', function(err){
@@ -123,6 +129,7 @@ function subprocess(cmd, installBin) {
 function main() {
 
 	var subcommand = args[0];
+	debug('main subcommand %s',subcommand);
 
 	// see if this is a use command
 	if (process.argv.length > 2) {
@@ -134,6 +141,7 @@ function main() {
 		}
 		else {
 			if (opts.version) {
+				debug('main version found %s',opts.version);
 				// if we aren't asking to print out the version but to use a specific version
 				// we will set the version (remove the --version from args) and then run command
 				// with this version
@@ -141,6 +149,7 @@ function main() {
 					// set it explicitly by passing the version (otherwise will resolve to available)
 					// if it doesn't explicitly find it, will return null and then install below
 					installBin = util.getInstallBinary(opts,opts.version);
+					debug('main explicitly set a version, installBin=%s',installBin);
 					// delete --version so we don't add to pass through args
 					var _args = [];
 					for (var c=0;c<process.argv.length;c++) {
@@ -157,6 +166,7 @@ function main() {
 						}
 					}
 					process.argv = _args;
+					debug('main set new args to %o',_args);
 					if (!installBin) {
 						// doesn't exist so we need to first install and then run it, but do it
 						// here so that after doesn't get used below
@@ -170,10 +180,12 @@ function main() {
 	if (args[0]==='setup') {
 		opts.setup = true;
 		installBin = null;
+		debug('main setup found');
 	}
 	// if we can't find a suitable install binary, we need to install one
 	if (!installBin || !fs.existsSync(installBin)) {
 		opts.setup = true;
+		debug("main - !installBin or couldn't find it %s",installBin);
 		lib.install(util.getInstallDir(), opts, after);
 	}
 	// otherwise, we should just run 
@@ -183,6 +195,7 @@ function main() {
 
 			// check to see if this is a bundled subcommand
 			if (bundledSubcommands.test(subcommand)){
+				debug("main - bundled subcommand, calling subprocess");
 				return subprocess(subcommand,installBin);
 			}
 
