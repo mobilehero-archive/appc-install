@@ -188,7 +188,7 @@ function main() {
 		debug("main - !installBin or couldn't find it %s",installBin);
 		lib.install(util.getInstallDir(), opts, after);
 	}
-	// otherwise, we should just run 
+	// otherwise, we should just run
 	else {
 		// first update check if required
 		util.updateCheck(opts, function(){
