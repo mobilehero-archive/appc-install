@@ -1,1 +1,5 @@
 *.tgz
+npm-debug.log
+node_modules
+tmp
+test
