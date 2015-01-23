@@ -110,9 +110,7 @@ function subprocess(cmd, installBin) {
 			}
 		}
 	}
-
-	// console.log(bin);
-
+	
 	if (!fs.existsSync(bin)) {
 		error.failWithError('com.appcelerator.install.binary.missing',bin,pkg,version);
 	}
