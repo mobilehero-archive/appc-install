@@ -119,7 +119,7 @@ function subprocess(cmd, installBin) {
 
 	// for windows, we need to actually run from node since these binaries aren't setup with cmd.exe
 	var childArgs = cmd === 'acs' ? [bin, argv, argopts] : 
-		[process.execPath, [bin].concat(argv), argopts] 
+		[process.execPath, [bin].concat(argv), argopts];
 	var child = spawn.apply(null, childArgs);
 	child.on('error', function(err){
 		error.failWithError('com.appcelerator.install.binary.error',bin,err.message||String(err));
