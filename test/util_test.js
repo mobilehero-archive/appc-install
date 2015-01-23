@@ -257,7 +257,7 @@ describe('util', function(){
 	describe('should canWriteDir', function(done){
 
 		if (process.platform === 'win32' || process.env.TRAVIS) {
-			return done();
+			return;
 		}
 		this.timeout(30000);
 
