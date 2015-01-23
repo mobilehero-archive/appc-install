@@ -254,7 +254,7 @@ describe('util', function(){
 
 	});
 
-	describe('should canWriteDir', function(done){
+	describe('should canWriteDir', function(){
 
 		if (process.platform === 'win32' || process.env.TRAVIS) {
 			return;
