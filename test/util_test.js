@@ -257,7 +257,7 @@ describe('util', function(){
 	describe('should canWriteDir', function(done){
 
 		if (process.platform === 'win32' || process.env.TRAVIS) {
-			return;
+			return done();
 		}
 		this.timeout(30000);
 
@@ -341,7 +341,7 @@ describe('util', function(){
 	});
 
 	describe('registry', function(){
-		this.timeout(10000);
+		this.timeout(30000);
 		it('should validate fingerprint',function(done){
 			util.getRequest().get(util.makeURL('/'), function(err,resp,body) {
 				should(err).be.null;
