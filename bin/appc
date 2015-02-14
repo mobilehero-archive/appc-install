@@ -15,8 +15,50 @@ var fs = require('fs'),
 	debug = require('debug')('appc:bin'),
 	opts = util.parseOpts(),
 	args = util.parseArgs(opts),
-	installBin = util.getInstallBinary(opts);
+	installBin = util.getInstallBinary(opts),
+	dirError;
 
+// set our npm cache directory to point to our own directory which we know is
+// writable and doesn't conflict with other npms installed by the user
+// we set this here so that all child processes will automatically pick them up
+var npmCacheDir = util.getNpmCacheDirectory();
+if (fs.existsSync(npmCacheDir)) {
+	dirError = util.checkDirectory(npmCacheDir,'npm');
+}
+else {
+	// make sure we write the directory
+	util.ensureDir(npmCacheDir);
+	dirError = util.checkDirectory(npmCacheDir,'npm');
+}
+
+// check if we have an error and if so, fail
+dirError && util.fail(dirError);
+
+// if we get here, we're OK, set our environment.  this means anything we now
+// do with npm should be in our user writable directory and not a different directory
+process.env.npm_config_cache = npmCacheDir;
+process.env.npm_config_prefix = npmCacheDir;
+
+// we need to make sure our install directory is writable at all times and if not, give
+// error up front
+var installDir = util.getInstallDir();
+if (fs.existsSync(installDir)) {
+	dirError = util.checkDirectory(installDir,'install');
+}
+else {
+	// make sure we write the directory
+	util.ensureDir(installDir);
+	dirError = util.checkDirectory(installDir,'install');
+}
+
+// check if we have an error and if so, fail
+dirError && util.fail(dirError);
+
+// set an environment to the location of our install directory and bin directory
+process.env.APPC_INSTALL_DIR = installDir;
+process.env.APPC_INSTALL_BIN_DIR = installBin;
+
+debug('install bin is %o',installBin);
 
 function after(err, installDir, version, installBin) {
 	debug('after called with %o',arguments);

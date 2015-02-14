@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.3.0-rc1",
+  "version": "0.3.3",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -23,7 +23,8 @@
     "titanium",
     "apibuilder",
     "acs",
-    "appcelerator cloud"
+    "appcelerator cloud",
+    "arrow"
   ],
   "devDependencies": {
     "grunt": "^0.4.5",
