@@ -76,10 +76,12 @@ function after(err, installDir, version, installBin) {
 			console.log(chalk.yellow('Appcelerator login required. Please login now...'));
 			console.log(chalk.yellow(chalk.dim('If you do not yet have an account, please visit '+chalk.underline('http://www.appcelerator.com/signup'))));
 			console.log();
+			var args = program.argv.splice(2);
 			// run our login
 			process.argv[2] = 'login';
 			process.argv[3] = '--no-banner';
 			process.argv.length = 4;
+			util.mergeOptsToArgs(progress.argv,opts);
 			debug('calling lib run %s',installBin);
 			lib.run(installBin);
 		}
