@@ -15,6 +15,10 @@ var should = require('should'),
 
 describe('util', function(){
 
+	afterEach(function(){
+		delete process.env.APPC_REGISTRY_SERVER;
+	});
+
 	describe('should parseArgs', function(){
 
 		it('as single arg',function(){
@@ -142,12 +146,12 @@ describe('util', function(){
 		});
 
 		it('parse using env', function(){
-			process.env.APPC_REGISTRY = 'http://bar';
+			process.env.APPC_REGISTRY_SERVER = 'http://bar';
 			should(util.makeURL(null,'foo')).be.equal('http://bar/foo');
 		});
 
 		it('parse using default', function(){
-			should(util.makeURL({},'foo')).be.equal('https://9bcfd7d35d3f2ad0ad069665d0120b7a381f81e9.cloudapp.appcelerator.com/foo');
+			should(util.makeURL({},'foo')).be.equal('https://27fe40d4c11c2bd6187b5d74ae8ceba06844539a.cloudapp-enterprise.appcelerator.com/foo');
 		});
 
 	});

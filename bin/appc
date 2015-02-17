@@ -18,6 +18,9 @@ var fs = require('fs'),
 	installBin = util.getInstallBinary(opts),
 	dirError;
 
+// backup our process.argv
+process.__argv = [].concat(process.argv);
+
 // set our npm cache directory to point to our own directory which we know is
 // writable and doesn't conflict with other npms installed by the user
 // we set this here so that all child processes will automatically pick them up
@@ -32,7 +35,9 @@ else {
 }
 
 // check if we have an error and if so, fail
-dirError && util.fail(dirError);
+if (dirError) {
+	util.fail(dirError);
+}
 
 // if we get here, we're OK, set our environment.  this means anything we now
 // do with npm should be in our user writable directory and not a different directory
@@ -52,7 +57,9 @@ else {
 }
 
 // check if we have an error and if so, fail
-dirError && util.fail(dirError);
+if (dirError) {
+	util.fail(dirError);
+}
 
 // set an environment to the location of our install directory and bin directory
 process.env.APPC_INSTALL_DIR = installDir;
