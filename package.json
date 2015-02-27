@@ -47,7 +47,7 @@
     "request"
   ],
   "dependencies": {
-    "appc-request-ssl": "1.0.12",
+    "appc-request-ssl": "1.0.13",
     "chalk": "0.5.1",
     "debug": "^2.1.1",
     "progress": "1.1.8",
