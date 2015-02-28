@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -47,7 +47,7 @@
     "request"
   ],
   "dependencies": {
-    "appc-request-ssl": "1.0.13",
+    "appc-request-ssl": "1.0.14",
     "chalk": "0.5.1",
     "debug": "^2.1.1",
     "progress": "1.1.8",
