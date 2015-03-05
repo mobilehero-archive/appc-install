@@ -151,7 +151,7 @@ describe('util', function(){
 		});
 
 		it('parse using default', function(){
-			should(util.makeURL({},'foo')).be.equal('https://4db53bb79d364bf3ea0595f95cb2bd1d55f355cb.cloudapp-enterprise.appcelerator.com/foo');
+			should(util.makeURL({},'foo')).be.equal('https://8d2938f67044d8367d468453b5a6c2536185bcea.cloudapp-enterprise-preprod.appctest.com/foo');
 		});
 
 	});
