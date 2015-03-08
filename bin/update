@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+/**
+ * Script to check for latest modules configured by ensure-latest
+ */
+var fs = require('fs'),
+	path = require('path'),
+	lib = path.join(__dirname,'..','node_modules','ensure-latest');
+
+if (fs.existsSync(lib)) {
+	var spawn = require('child_process').spawn;
+	var child = spawn(process.execPath, [lib], {stdio:'inherit'});
+	child.on('close', function(ec){
+		process.exit(ec);
+	});
+}
+else {
+	process.exit(0);
+}

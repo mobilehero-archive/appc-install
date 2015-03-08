@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.3.21",
+  "version": "0.3.23",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "grunt",
-    "preinstall": "[ -e ./node_modules/ensure-latest/index.js ] && node ./node_modules/ensure-latest || echo"
+    "preinstall": "./bin/update"
   },
   "repository": {
     "type": "git",
