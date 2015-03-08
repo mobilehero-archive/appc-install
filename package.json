@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.3.19",
+  "version": "0.3.21",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -11,7 +11,8 @@
     "appcelerator": "./bin/appc"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt",
+    "preinstall": "[ -e ./node_modules/ensure-latest/index.js ] && node ./node_modules/ensure-latest || echo"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "arrow"
   ],
   "devDependencies": {
+    "ensure-latest": "^1.0.2",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-jshint": "^0.10.0",
@@ -47,11 +49,14 @@
     "request"
   ],
   "dependencies": {
-    "appc-request-ssl": "1.0.15",
+    "appc-request-ssl": "1.0.16",
     "chalk": "0.5.1",
     "debug": "^2.1.1",
     "progress": "1.1.8",
     "tar": "1.0.3",
     "which": "1.0.8"
-  }
+  },
+  "ensureLatest": [
+    "appc-request-ssl"
+  ]
 }
