@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "grunt",
-    "preinstall": "./bin/update"
+    "preinstall": "node ./bin/update"
   },
   "repository": {
     "type": "git",
