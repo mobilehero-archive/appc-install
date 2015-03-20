@@ -150,8 +150,9 @@ function subprocess(cmd, installBin) {
 				bin = path.resolve(path.join(pkg, 'node_modules','appc-cli-titanium','node_modules','alloy','bin','alloy'));
 				break;
 			}
+			case 'cloud':
 			case 'acs': {
-				bin = path.resolve(path.join(pkg, 'node_modules','apibuilder','node_modules','acs','bin','acs'));
+				bin = path.resolve(path.join(pkg, 'node_modules','arrow','node_modules','acs','bin','acs'));
 				break;
 			}
 		}
