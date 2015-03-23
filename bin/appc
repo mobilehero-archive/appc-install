@@ -100,7 +100,7 @@ function after(err, installDir, version, installBin) {
 }
 
 // any of these subcommands will be passed
-var bundledSubcommands = /^(alloy|acs)$/;
+var bundledSubcommands = /^(alloy|acs|cloud)$/;
 
 /**
  * support delegating to these bundled binaries in the case
@@ -153,6 +153,7 @@ function subprocess(cmd, installBin) {
 			case 'cloud':
 			case 'acs': {
 				bin = path.resolve(path.join(pkg, 'node_modules','arrow','node_modules','acs','bin','acs'));
+				cmd = 'acs';
 				break;
 			}
 		}
