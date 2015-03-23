@@ -134,11 +134,13 @@ function subprocess(cmd, installBin) {
 	env.APPC_VERSION_DIR = pkg;
 	env.APPC_SUBPROCESS = 1;
 
-	// attempt to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
-	try {
-		bin = which.sync(cmd);
-	}
-	catch (E){
+	if (cmd !== 'alloy') {
+		// attempt to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
+		try {
+			bin = which.sync(cmd);
+		}
+		catch (E){
+		}
 	}
 
 	// try to find the npm version first (above in which), then fall back to our bundled version if
@@ -158,7 +160,7 @@ function subprocess(cmd, installBin) {
 			}
 		}
 	}
-	
+
 	if (!fs.existsSync(bin)) {
 		error.failWithError('com.appcelerator.install.binary.missing',bin,pkg,version);
 	}
@@ -166,9 +168,10 @@ function subprocess(cmd, installBin) {
 	debug('calling spawn with %s, bin=%s, argv=%j, argopts=%j',process.execPath,bin,argv,argopts);
 
 	// for windows, we need to actually run from node since these binaries aren't setup with cmd.exe
-	var childArgs = cmd === 'acs' ? [bin, argv, argopts] : 
+	var childArgs = (require('path').extname(bin).toLowerCase() === '.cmd') ? [bin, argv, argopts] :
 		[process.execPath, [bin].concat(argv), argopts];
 	var child = spawn.apply(null, childArgs);
+
 	child.on('error', function(err){
 		error.failWithError('com.appcelerator.install.binary.error',bin,err.message||String(err));
 	});
