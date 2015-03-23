@@ -138,7 +138,7 @@ describe('util', function(){
 	describe('should makeURL', function(){
 
 		afterEach(function(){
-			delete process.env.APPC_REGISTRY;
+			delete process.env.APPC_REGISTRY_SERVER;
 		});
 
 		it('parse using opts', function(){
@@ -151,9 +151,7 @@ describe('util', function(){
 		});
 
 		it('parse using default', function(){
-			should(util.makeURL({},'foo')).be.equal(
-				process.env.TRAVIS ? 'https://4db53bb79d364bf3ea0595f95cb2bd1d55f355cb.cloudapp-enterprise.appcelerator.com/foo' :
-				'https://8d2938f67044d8367d468453b5a6c2536185bcea.cloudapp-enterprise-preprod.appctest.com/foo');
+			should(util.makeURL({},'foo')).be.equal('https://software.appcelerator.com/foo');
 		});
 
 	});
