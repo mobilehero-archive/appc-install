@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 				timeout: 3000,
 				reporter: 'spec',
 				ignoreLeaks: false,
-				globals: []
+				globals: ['requestSSLHooks','requestSSLFingerprints']
 			},
 			src: tests
 		},
