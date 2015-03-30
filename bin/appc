@@ -168,7 +168,7 @@ function subprocess(cmd, installBin) {
 	debug('calling spawn with %s, bin=%s, argv=%j, argopts=%j',process.execPath,bin,argv,argopts);
 
 	// for windows, we need to actually run from node since these binaries aren't setup with cmd.exe
-	var childArgs = (require('path').extname(bin).toLowerCase() === '.cmd') ? [bin, argv, argopts] :
+	var childArgs = (path.extname(bin).toLowerCase() === '.cmd') ? [bin, argv, argopts] :
 		[process.execPath, [bin].concat(argv), argopts];
 	var child = spawn.apply(null, childArgs);
 
