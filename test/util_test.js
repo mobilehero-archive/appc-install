@@ -139,6 +139,8 @@ describe('util', function(){
 
 		afterEach(function(){
 			delete process.env.APPC_REGISTRY_SERVER;
+			delete process.env.APPC_ENV;
+			delete process.env.NODE_ENV;
 		});
 
 		it('parse using opts', function(){
