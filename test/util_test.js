@@ -348,7 +348,7 @@ describe('util', function(){
 
 	describe('registry', function(){
 		this.timeout(30000);
-		it('should validate fingerprint',function(done){
+		it.skip('should validate fingerprint',function(done){
 			util.getRequest().get(util.makeURL('/'), function(err,resp,body) {
 				should(err).be.null;
 				should(body).be.a.string;
