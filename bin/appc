@@ -61,6 +61,12 @@ if (dirError) {
 	util.fail(dirError);
 }
 
+// cleanup stale install tag
+var installTag = util.getInstallTag();
+if (fs.existsSync(installTag)) {
+	fs.unlinkSync(installTag);
+}
+
 // set an environment to the location of our install directory and bin directory
 process.env.APPC_INSTALL_DIR = installDir;
 process.env.APPC_INSTALL_BIN_DIR = installBin;
