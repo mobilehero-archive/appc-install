@@ -73,6 +73,8 @@ process.env.APPC_INSTALL_BIN_DIR = installBin;
 
 debug('install bin is %o',installBin);
 
+process.env.APPC_CONFIG_PROXY = util.getProxyServer();
+
 function after(err, installDir, version, installBin) {
 	debug('after called with %o',arguments);
 
