@@ -195,6 +195,9 @@ function main() {
 		if (subcommand==='use') {
 			return lib.use(opts, function(err) {
 				if (err) {
+					if (err.name === 'AppCError') {
+						err.failWithStackTrace();
+					}
 					error.failWithError('com.appcelerator.install.download.server.response.error',err.message||String(err));
 				}
 				// if we get here, we didn't find a version and we need to install it
