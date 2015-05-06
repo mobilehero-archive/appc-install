@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "0.3.55",
+  "version": "0.3.56",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
