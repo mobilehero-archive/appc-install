@@ -142,30 +142,17 @@ function subprocess(cmd, installBin) {
 	env.APPC_VERSION_DIR = pkg;
 	env.APPC_SUBPROCESS = 1;
 
-	if (cmd !== 'alloy') {
-		// attempt to resolve with npm binary. if not installed, will raise exception (which was can safely ignore)
-		try {
-			bin = which.sync(cmd);
+	// use our bundled version
+	switch(cmd) {
+		case 'alloy': {
+			bin = path.resolve(path.join(pkg, 'node_modules','appc-cli-titanium','node_modules','alloy','bin','alloy'));
+			break;
 		}
-		catch (E){
-		}
-	}
-
-	// try to find the npm version first (above in which), then fall back to our bundled version if
-	// the user doesn't have them installed globally. this has the advantage that you can use a different
-	// global version if installed already but also doesn't require to be installed if you install appc
-	if (!bin) {
-		switch(cmd) {
-			case 'alloy': {
-				bin = path.resolve(path.join(pkg, 'node_modules','appc-cli-titanium','node_modules','alloy','bin','alloy'));
-				break;
-			}
-			case 'cloud':
-			case 'acs': {
-				bin = path.resolve(path.join(pkg, 'node_modules','arrow','node_modules','acs','bin','acs'));
-				cmd = 'acs';
-				break;
-			}
+		case 'cloud':
+		case 'acs': {
+			bin = path.resolve(path.join(pkg, 'node_modules','arrow','node_modules','acs','bin','acs'));
+			cmd = 'acs';
+			break;
 		}
 	}
 
