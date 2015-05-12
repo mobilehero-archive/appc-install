@@ -7,12 +7,29 @@
  * part of the Appcelerator Platform and governed under the terms
  * of the Appcelerator license agreement.
  */
+var chalk = require('chalk'),
+	semver = require('semver'),
+	pkg = require('../package');
+
+// check Node.js version
+try {
+	if (!semver.satisfies(process.version, pkg.engines.node)) {
+		console.log(chalk.cyan('Appcelerator Command-Line Interface'));
+		console.log('Copyright (c) 2014-' + (new Date().getFullYear()) + ', Appcelerator, Inc.  All Rights Reserved.');
+		console.log('');
+		console.log(chalk.red('ERROR: appc requires Node.js ' + semver.validRange(pkg.engines.node)));
+		console.log('Visit ' + chalk.cyan('http://nodejs.org/') + ' to download a newer version.');
+		console.log('');
+
+		process.exit(1);
+	}
+} catch (e) {}
+
 var fs = require('fs'),
 	path = require('path'),
 	util = require('../lib/util'),
 	error = require('../lib/error'),
 	lib = require('../lib/index'),
-	pkg = require('../package'),
 	debug = require('debug')('appc:bin'),
 	opts = util.parseOpts(),
 	args = util.parseArgs(opts),
