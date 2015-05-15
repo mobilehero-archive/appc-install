@@ -40,7 +40,7 @@ var fs = require('fs'),
 process.__argv = [].concat(process.argv);
 
 // set appc npm version
-process.env.NPM_APPC_VERSION = pkg.version;
+process.env.APPC_NPM_VERSION = pkg.version;
 
 // set our npm cache directory to point to our own directory which we know is
 // writable and doesn't conflict with other npms installed by the user
