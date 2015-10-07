@@ -193,9 +193,15 @@ function subprocess(cmd, installBin) {
 	});
 
 	// propagate signals to child process
-	['SIGTERM', 'SIGUSR1', 'SIGUSR2', 'SIGINT', 'SIGHUP', 'SIGQUIT', 'SIGABRT'].forEach(function (name) {
+	['SIGTERM', 'SIGUSR1', 'SIGUSR2', 'SIGINT', 'SIGHUP', 'SIGQUIT', 'SIGABRT', 'exit'].forEach(function (name) {
 		process.on(name, function () {
-			child.kill(name);
+			if (name === 'exit') {
+				child.kill();
+				process.exit(arguments[0]);
+			} else {
+				child.kill(name);
+				process.exit();
+			}
 		});
 	});
 }
