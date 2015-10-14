@@ -210,6 +210,7 @@ function main() {
 
 	var subcommand = args[0];
 	debug('main subcommand %s',subcommand);
+	opts.version = opts.version || opts.v;
 
 	// see if this is a use command
 	if (process.argv.length > 2) {
