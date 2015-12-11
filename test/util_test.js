@@ -55,7 +55,7 @@ describe('util', function(){
 	});
 
 	describe('should parseOpts', function(){
-	
+
 		it('as boolean true',function(){
 			process.argv = process.argv.slice(0,2).concat(['--foo']);
 			var opts = util.parseOpts();
@@ -358,5 +358,35 @@ describe('util', function(){
 			});
 		});
 
+	});
+
+	describe('should getProxyServer', function() {
+		var proxy;
+
+		it('no config proxyServer', function() {
+			proxy = util.getProxyServer({});
+			should(proxy).not.be.ok;
+		});
+
+		it('config proxyServer empty value', function() {
+			proxy = util.getProxyServer({ proxyServer: ''});
+			should(proxy).not.be.ok;
+		});
+
+		it('config proxyServer null domain', function() {
+			proxy = util.getProxyServer({ proxyServer: 'https://null'});
+			should(proxy).not.be.ok;
+		});
+
+		it('config proxyServer no protocol', function() {
+			proxy = util.getProxyServer({ proxyServer: 'random.proxy'});
+			should(proxy).not.be.ok;
+		});
+
+		it('exist config proxyServer', function() {
+			var addr = 'http://localhost';
+			proxy = util.getProxyServer({ proxyServer: addr});
+			should(proxy).be.exactly(addr);
+		});
 	});
 });

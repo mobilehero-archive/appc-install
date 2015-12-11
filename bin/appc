@@ -94,7 +94,7 @@ process.env.APPC_INSTALL_BIN_DIR = installBin;
 
 debug('install bin is %o',installBin);
 
-process.env.APPC_CONFIG_PROXY = util.getProxyServer();
+process.env.APPC_CONFIG_PROXY = util.getProxyServer(util.readConfig());
 if (!process.env.APPC_CONFIG_PROXY) {
     delete process.env.APPC_CONFIG_PROXY;
 }
