@@ -34,23 +34,21 @@ if (module.parent && module.parent.filename) {
 	}
 }
 
-var bin = util.getInstallBinary(null,version);
+var bin = util.getInstallBinary(null, version);
 
 // if we didn't find the version, we need to bail
 if (!bin) {
 	// if we didn't specify a version and we couldn't find one. we don't have appc installed
 	if (!version) {
-		throw new Error("you must run `appc setup` before you can require this module");
-	}
-	// we specified a version but we don't have it installed.  ideally we could auto-install
-	// but since module loading is synchronous we have to just bail and make the user do it
-	else {
-		throw new Error("you must run `appc use "+version+"` to install the required version");
+		throw new Error('you must run `appc setup` before you can require this module');
+	} else {
+		// we specified a version but we don't have it installed.  ideally we could auto-install
+		// but since module loading is synchronous we have to just bail and make the user do it
+		throw new Error('you must run `appc use ' + version + '` to install the required version');
 	}
 }
 
 // we found our appc module so we need to export our module impersonating
 // the module we're delegating to as if we had loaded it directly
-var pkgdir = path.join(path.dirname(bin),'..');
+var pkgdir = path.join(path.dirname(bin), '..');
 module.exports = require(pkgdir);
-
