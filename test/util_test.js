@@ -401,6 +401,148 @@ describe('util', function () {
 
 	});
 
+	describe('utilities', function () {
+
+		var stdOut,
+			exit,
+			state;
+
+		before(function () {
+			stdOut = util.stdout;
+			exit = util.exit;
+			util.stdout = {
+				isTTY: true,
+				write: function (contents) {
+					state.written.push(contents);
+				},
+				clearLine: function () {
+					state.cleared = true;
+				},
+				cursorTo: function (index) {
+					state.cursorTo = index;
+				}
+			};
+			util.exit = function (code) {
+				state.exited = code;
+			};
+		});
+
+		beforeEach(function () {
+			state = {
+				written: []
+			};
+		});
+
+		afterEach(function () {
+			util.stopSpinner();
+		});
+
+		after(function () {
+			util.stdout = stdOut;
+			util.exit = exit;
+		});
+
+		it('should waitMessage', function (next) {
+			var msg = 'my wait message';
+			util.waitMessage(msg);
+			should(state.written[0]).eql(msg);
+			should(state.written).have.property('length', 1);
+			setTimeout(function () {
+				if (!process.env.TRAVIS) {
+					should(state.written).have.property('length', 4);
+				}
+				next();
+			}, 120);
+		});
+
+		it('should okMessage', function () {
+			var msg = 'my ok message';
+			util.okMessage(msg);
+			should(state.written[0]).containEql(msg);
+			util.okMessage();
+			should(state.written[1]).be.ok;
+			util.okMessage(false);
+			should(state.written[2]).be.ok;
+			should(state.written).have.property('length', 3);
+		});
+
+		it('should infoMessage', function () {
+			var msg = 'my info message';
+			util.infoMessage(msg);
+			should(state.written[0]).containEql(msg);
+			should(state.written).have.property('length', 1);
+		});
+
+		it('should infoMessage', function () {
+			var msg = 'my info message';
+			util.infoMessage(msg);
+			should(state.written[0]).containEql(msg);
+			should(state.written).have.property('length', 1);
+		});
+
+		it('should abortMessage', function () {
+			var msg = 'my abort message';
+			util.abortMessage(msg);
+			should(state.written[0]).containEql(msg);
+			should(state.written).have.property('length', 1);
+			should(state.cleared).eql(true);
+			should(state.cursorTo).eql(0);
+			should(state.exited).eql(1);
+		});
+
+		it('should resetLine', function () {
+			util.resetLine();
+			should(state.written).have.property('length', 0);
+			should(state.cleared).eql(true);
+			should(state.cursorTo).eql(0);
+		});
+
+		[
+			'getAppcDir', 'getInstallTag', 'getCacheDir', 'getInstallDir', 'getActiveVersion',
+			'getConfigFile', 'getNpmCacheDirectory', 'getRequest'
+		].forEach(function (key) {
+			it('should ' + key, function () {
+				var val = util[key]();
+				should(val).be.ok;
+			});
+		});
+
+		it('should request', function (next) {
+			util.request('http://www.appcelerator.com/', function (err, res, req) {
+				if (err) {
+					throw err;
+				}
+				should(res).be.ok;
+				next();
+			});
+		});
+
+		(!process.env.TRAVIS ? it : it.skip)('should updateCheck', function (next) {
+			var config = util.readConfig();
+			config.lastUpdateCheck = 0;
+			util.setCachedConfig(config);
+			util.updateCheck({}, function (err, res, req) {
+				console.log(arguments);
+				next();
+			});
+		});
+
+		it('should mergeOptsToArgs', function () {
+			var args = [];
+			process.__argv = [0, 1, 2, 3, 4, 5, 6];
+			util.mergeOptsToArgs(args);
+			should(args).be.ok;
+			should(args).eql([3, 4, 5, 6]);
+
+			args = [];
+			process.__argv = [0, 1, 2];
+			util.mergeOptsToArgs(args);
+			should(args).be.ok;
+			should(args).eql([]);
+		});
+
+	});
+
 	describe('should getProxyServer', function () {
 		var proxy;
 

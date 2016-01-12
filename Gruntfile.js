@@ -51,10 +51,10 @@ module.exports = function (grunt) {
 					],
 					mochaOptions: ['--bail'],
 					check: {
-						statements: 39,
-						branches: 20,
-						functions: 25,
-						lines: 40
+						statements: 50,
+						branches: 25,
+						functions: 50,
+						lines: 50
 					}
 				}
 			}

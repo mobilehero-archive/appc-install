@@ -166,11 +166,17 @@ function subprocess(cmd, installBin) {
 	// use our bundled version
 	switch (cmd) {
 		case 'alloy':
-			bin = path.resolve(path.dirname(require.resolve('alloy')) + '/../bin/alloy');
+			bin = path.resolve(path.join(pkg, 'node_modules', 'appc-cli-titanium', 'node_modules', 'alloy', 'bin', 'alloy'));
+			if (!fs.existsSync(bin)) {
+				bin = path.resolve(path.dirname(require.resolve('alloy')) + '/../bin/alloy');
+			}
 			break;
 		case 'cloud':
 		case 'acs':
-			bin = path.resolve(path.dirname(require.resolve('acs')) + '/../bin/acs');
+			bin = path.resolve(path.join(pkg, 'node_modules', 'arrow', 'node_modules', 'acs', 'bin', 'acs'));
+			if (!fs.existsSync(bin)) {
+				bin = path.resolve(path.dirname(require.resolve('acs')) + '/../bin/acs');
+			}
 			cmd = 'acs';
 			break;
 	}
@@ -280,8 +286,11 @@ function main() {
 		// first update check if required
 		util.updateCheck(opts, function () {
 
-			// check to see if this is a bundled subcommand
-			if (bundledSubcommands.test(subcommand) && process.argv.indexOf('--help') === -1) {
+			// check to see if this is a bundled subcommand and we aren't using a version of the CLI
+			// that wants to tunnel the subcommand itself.
+			var pkg = path.join(installBin, '..', '..'),
+				version = path.basename(path.dirname(pkg));
+			if (semver.lt(version.split('-')[0], '5.2.0') && bundledSubcommands.test(subcommand)) {
 				debug('main - bundled subcommand, calling subprocess');
 				return subprocess(subcommand, installBin);
 			}
