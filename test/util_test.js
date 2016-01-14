@@ -262,7 +262,7 @@ describe('util', function () {
 
 	describe('should canWriteDir', function () {
 
-		if (process.platform === 'win32' || process.env.TRAVIS) {
+		if (process.platform === 'win32' || process.env.TRAVIS || process.env.JENKINS) {
 			return;
 		}
 		this.timeout(30000);
