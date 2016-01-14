@@ -4,7 +4,7 @@
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
-  "license": "Appcelerator Software License (non-open source)",
+  "license": "LicenseRef-LICENSE",
   "preferGlobal": true,
   "bin": {
     "appc": "./bin/appc",
