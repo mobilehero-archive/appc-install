@@ -2,8 +2,6 @@
 
 This is the installer for the Appcelerator Platform software stack.
 
-> WARNING. This software is not yet released or ready for use. Please check back soon!
-
 ## Installation
 
 Install globally using npm such as (if using Windows, don't use sudo prefix):
