@@ -1,10 +1,10 @@
 {
   "name": "appcelerator",
-  "version": "4.2.4-0",
+  "version": "4.2.4-1",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
-  "license": "LicenseRef-LICENSE",
+  "license": "SEE LICENSE IN LICENSE",
   "preferGlobal": true,
   "bin": {
     "appc": "./bin/appc",
