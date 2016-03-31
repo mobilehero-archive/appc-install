@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 
 	var source = ['bin/appc', 'index.js', 'lib/**/*.js', 'test/**/*.js'];
 	var tests = ['test/**/*_test.js'];
-	// var tests = ['test/*/logout_test.js'];
+	// var tests = ['test/**/use_test.js'];
 
 	// Project configuration.
 	grunt.initConfig({
