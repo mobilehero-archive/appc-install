@@ -517,12 +517,100 @@ describe('util', function () {
 			});
 		});
 
-		(!process.env.TRAVIS ? it : it.skip)('should updateCheck', function (next) {
+		(!process.env.TRAVIS ? it : it.skip)('should updateCheck show msg', function (next) {
 			var config = util.readConfig();
 			config.lastUpdateCheck = 0;
 			util.setCachedConfig(config);
+
+			var requestJSONBackup = util.requestJSON,
+				getActiveVersionBackup = util.getActiveVersion,
+				getInstallBinaryBackup = util.getInstallBinary;
+
+			util.requestJSON = function (location, callback) {
+				var result = {
+						success: true,
+						'request-id': '11111',
+						key: 'result',
+						result:[
+							{id: '571963934b62fb090c4e1839',
+								filesize: 57642403,
+								shasum: 'd6967f57b3c6ac75250b18f3e75a987bd46b79b5',
+								version: '5.3.0-34'},
+							{id: '56c4a74351f034ed6cf53ba4',
+								filesize: 46058894,
+								shasum: 'cb5be98a2eb288eb5c9245b273a0a544205a365e',
+								version: '5.2.0-265'},
+							{id: '5702ee064b62fb09142bc8f2',
+								filesize: 53189069,
+								shasum: 'c1cb6043807158678ed2d677b6bcd33f1cea9ff3',
+								version: '5.2.2'}
+						]
+					};
+				return callback(null, result);
+			};
+
+			util.getActiveVersion = function () {
+				return '5.2.2';
+			};
+
+			util.getInstallBinary = function () {
+				return null;
+			};
+
 			util.updateCheck({}, function (err, res, req) {
-				console.log(arguments);
+				should(state.written[0]).containEql('A new update');
+				util.requestJSON = requestJSONBackup;
+				util.getActiveVersion = getActiveVersionBackup;
+				util.getInstallBinary = getInstallBinaryBackup;
+				next();
+			});
+		});
+
+		(!process.env.TRAVIS ? it : it.skip)('should updateCheck do not show msg', function (next) {
+			var config = util.readConfig();
+			config.lastUpdateCheck = 0;
+			util.setCachedConfig(config);
+
+			var requestJSONBackup = util.requestJSON,
+				getActiveVersionBackup = util.getActiveVersion,
+				getInstallBinaryBackup = util.getInstallBinary;
+
+			util.requestJSON = function (location, callback) {
+				var result = {
+						success: true,
+						'request-id': '11111',
+						key: 'result',
+						result:[
+							{id: '571963934b62fb090c4e1839',
+								filesize: 57642403,
+								shasum: 'd6967f57b3c6ac75250b18f3e75a987bd46b79b5',
+								version: '5.3.0-34'},
+							{id: '56c4a74351f034ed6cf53ba4',
+								filesize: 46058894,
+								shasum: 'cb5be98a2eb288eb5c9245b273a0a544205a365e',
+								version: '5.2.0-265'},
+							{id: '5702ee064b62fb09142bc8f2',
+								filesize: 53189069,
+								shasum: 'c1cb6043807158678ed2d677b6bcd33f1cea9ff3',
+								version: '5.2.2'}
+						]
+					};
+				return callback(null, result);
+			};
+
+			util.getActiveVersion = function () {
+				return '5.3.0-36';
+			};
+
+			util.getInstallBinary = function () {
+				return null;
+			};
+
+			util.updateCheck({}, function (err, res, req) {
+				should(state.written[0]).eql(undefined);
+				util.requestJSON = requestJSONBackup;
+				util.getActiveVersion = getActiveVersionBackup;
+				util.getInstallBinary = getInstallBinaryBackup;
 				next();
 			});
 		});
