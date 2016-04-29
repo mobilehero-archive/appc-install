@@ -523,7 +523,8 @@ describe('util', function () {
 			util.setCachedConfig(config);
 
 			var requestJSONBackup = util.requestJSON,
-				getActiveVersionBackup = util.getActiveVersion;
+				getActiveVersionBackup = util.getActiveVersion,
+				getInstallBinaryBackup = util.getInstallBinary;
 
 			util.requestJSON = function (location, callback) {
 				var result = {
@@ -552,10 +553,15 @@ describe('util', function () {
 				return '5.2.2';
 			};
 
+			util.getInstallBinary = function () {
+				return null;
+			};
+
 			util.updateCheck({}, function (err, res, req) {
 				should(state.written[0]).containEql('A new update');
 				util.requestJSON = requestJSONBackup;
 				util.getActiveVersion = getActiveVersionBackup;
+				util.getInstallBinary = getInstallBinaryBackup;
 				next();
 			});
 		});
@@ -566,7 +572,8 @@ describe('util', function () {
 			util.setCachedConfig(config);
 
 			var requestJSONBackup = util.requestJSON,
-				getActiveVersionBackup = util.getActiveVersion;
+				getActiveVersionBackup = util.getActiveVersion,
+				getInstallBinaryBackup = util.getInstallBinary;
 
 			util.requestJSON = function (location, callback) {
 				var result = {
@@ -595,10 +602,15 @@ describe('util', function () {
 				return '5.3.0-36';
 			};
 
+			util.getInstallBinary = function () {
+				return null;
+			};
+
 			util.updateCheck({}, function (err, res, req) {
 				should(state.written[0]).eql(undefined);
 				util.requestJSON = requestJSONBackup;
 				util.getActiveVersion = getActiveVersionBackup;
+				util.getInstallBinary = getInstallBinaryBackup;
 				next();
 			});
 		});
