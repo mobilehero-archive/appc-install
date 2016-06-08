@@ -660,4 +660,69 @@ describe('util', function () {
 			should(proxy).be.exactly(addr);
 		});
 	});
+
+	describe('should getStrictSSL', function () {
+		var strictssl;
+
+		it('no config strictSSL', function () {
+			strictssl = util.getStrictSSL({});
+			should(strictssl).not.be.ok;
+		});
+
+		it('config strictSSL empty value', function () {
+			strictssl = util.getStrictSSL({strictSSL: ''});
+			should(strictssl).not.be.ok;
+		});
+
+		it('config strictSSL null value', function () {
+			strictssl = util.getStrictSSL({strictSSL: null});
+			should(strictssl).not.be.ok;
+		});
+
+		it('config strictSSL undefined value', function () {
+			strictssl = util.getStrictSSL({strictSSL: undefined});
+			should(strictssl).not.be.ok;
+		});
+
+		it('config strictSSL TRUE value', function () {
+			strictssl = util.getStrictSSL({strictSSL: true});
+			should(strictssl).be.exactly(true);
+		});
+
+		it('config strictSSL FALSE value', function () {
+			strictssl = util.getStrictSSL({strictSSL: false});
+			should(strictssl).be.exactly(false);
+		});
+	});
+
+	describe('should getCAfile', function () {
+		var caFile;
+
+		it('no config getCAfile', function () {
+			caFile = util.getCAfile({});
+			should(caFile).not.be.ok;
+		});
+
+		it('config getCAfile empty value', function () {
+			caFile = util.getCAfile({cafile: ''});
+			should(caFile).not.be.ok;
+		});
+
+		it('config getCAfile null value', function () {
+			caFile = util.getCAfile({cafile: null});
+			should(caFile).not.be.ok;
+		});
+
+		it('config getCAfile undefined value', function () {
+			caFile = util.getCAfile({cafile: undefined});
+			should(caFile).not.be.ok;
+		});
+
+		it('config getCAfile value exists', function () {
+			var mock = path.resolve('./test/mocks/mockca.pem');
+			caFile = util.getCAfile({cafile: mock});
+			should(caFile).be.exactly(mock);
+		});
+	});
+
 });

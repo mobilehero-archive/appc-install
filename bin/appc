@@ -94,9 +94,20 @@ process.env.APPC_INSTALL_BIN_DIR = installBin;
 
 debug('install bin is %o', installBin);
 
-process.env.APPC_CONFIG_PROXY = util.getProxyServer(util.readConfig());
+var appcConfig = util.readConfig();
+process.env.APPC_CONFIG_PROXY = util.getProxyServer(appcConfig);
 if (!process.env.APPC_CONFIG_PROXY) {
 	delete process.env.APPC_CONFIG_PROXY;
+}
+
+var cafile = util.getCAfile(appcConfig);
+if (cafile) {
+	process.env.APPC_CONFIG_CAFILE = cafile;
+}
+
+var strictSSL = util.getStrictSSL(appcConfig);
+if (typeof strictSSL === 'boolean') {
+	process.env.APPC_CONFIG_STRICTSSL = strictSSL;
 }
 
 function after(err, installDir, version, installBin) {
