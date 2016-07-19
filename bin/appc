@@ -226,10 +226,11 @@ function main() {
 	var subcommand = args[0];
 	debug('main subcommand %s', subcommand);
 	opts.version = opts.version || opts.v;
+	opts.output = opts.output || opts.o;
 
 	// Check if there's an update, default updateCheckInterval is 1 day
 	var notifier = updateNotifier({pkg: pkg});
-	if (notifier.update) {
+	if (notifier.update && opts.output !== 'json') {
 		notifier.notify();
 	}
 
