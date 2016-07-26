@@ -28,7 +28,6 @@ try {
 
 var fs = require('fs'),
 	path = require('path'),
-	updateNotifier = require('update-notifier'),
 	util = require('../lib/util'),
 	error = require('../lib/error'),
 	lib = require('../lib/index'),
@@ -227,12 +226,6 @@ function main() {
 	debug('main subcommand %s', subcommand);
 	opts.version = opts.version || opts.v;
 	opts.output = opts.output || opts.o;
-
-	// Check if there's an update, default updateCheckInterval is 1 day
-	var notifier = updateNotifier({pkg: pkg});
-	if (notifier.update && opts.output !== 'json') {
-		notifier.notify();
-	}
 
 	// see if this is a use command
 	if (process.argv.length > 2) {
