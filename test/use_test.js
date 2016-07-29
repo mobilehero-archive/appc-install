@@ -36,6 +36,10 @@ var listResult = {
 util.requestJSON = function (location, callback) {
 	var result = {};
 
+	if (typeof(location) === 'object') {
+		location = location.url;
+	}
+
 	if (/latest/.test(location)) {
 		result = latestResult;
 	} else if (/list/.test(location)) {
