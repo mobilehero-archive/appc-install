@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "4.2.8-7",
+  "version": "4.2.8-8",
   "description": "Appcelerator Platform Software installer",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -37,16 +37,6 @@
     "should": "^8.0.2",
     "mocha": "^2.3.4"
   },
-  "bundleDependencies": [
-    "request",
-    "chalk",
-    "progress",
-    "tar",
-    "which",
-    "debug",
-    "lodash",
-    "request"
-  ],
   "dependencies": {
     "async": "^1.5.0",
     "chalk": "0.5.1",
