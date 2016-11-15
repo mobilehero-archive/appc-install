@@ -1,6 +1,6 @@
 {
   "name": "appcelerator",
-  "version": "4.2.8-8",
+  "version": "4.2.9-0",
   "dependencies": {
     "async": {
       "version": "1.5.2",
