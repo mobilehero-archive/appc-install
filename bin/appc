@@ -272,6 +272,13 @@ function main() {
 						// here so that after doesn't get used below
 						return lib.install(util.getInstallDir(), opts);
 					}
+				} else {
+					if (!util.getInstallBinary(opts)) {
+						if (opts.output !== 'json') {
+							console.log(chalk.red('No versions are installed.'));
+						}
+						process.exit(0);
+					}
 				}
 			}
 		}
