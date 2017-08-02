@@ -51,6 +51,7 @@ module.exports = function (grunt) {
 					],
 					mochaOptions: ['--bail'],
 					reporter: 'mocha-jenkins-reporter',
+					reportFormats: ['lcov', 'cobertura'],
 					check: {
 						statements: 50,
 						branches: 25,
