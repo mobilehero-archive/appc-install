@@ -3,3 +3,5 @@ npm-debug.log
 node_modules
 tmp
 coverage
+junit_report.xml
+.DS_Store
