@@ -508,7 +508,7 @@ describe('util', function () {
 		});
 
 		it('should request', function (next) {
-			this.timeout(5000);
+			this.timeout(10000);
 			util.request('http://www.appcelerator.com/', function (err, res, req) {
 				if (err) {
 					throw err;
