@@ -133,6 +133,31 @@ describe('util', function () {
 			should(Object.keys(args)).have.length(0);
 		});
 
+		it('support a flag followed by an arg', function () {
+			process.argv = process.argv.slice(0, 2).concat(['--no-prompt', 'latest']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs(opts);
+			should(opts).have.property('prompt', false);
+			should(args).eql(['latest']);
+		});
+
+		it('not parse an option as an arg (short)', function () {
+			process.argv = process.argv.slice(0, 2).concat(['--prerelease', '-o', 'json']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs(opts);
+			should(opts).have.property('prerelease', true);
+			should(opts).have.property('o', 'json');
+			should(args).have.length(0);
+		});
+
+		it('not parse an option as an arg (long)', function () {
+			process.argv = process.argv.slice(0, 2).concat(['--prerelease', '--output', 'json']);
+			var opts = util.parseOpts();
+			var args = util.parseArgs(opts);
+			should(opts).have.property('prerelease', true);
+			should(opts).have.property('output', 'json');
+			should(args).have.length(0);
+		});
 	});
 
 	describe('should makeURL', function () {
