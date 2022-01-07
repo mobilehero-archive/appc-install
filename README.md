@@ -1,4 +1,17 @@
-# Appcelerator Installer [![Build Status](https://travis-ci.org/appcelerator/appc-install.svg?branch=master)](https://travis-ci.org/appcelerator/appc-install) [![npm version](https://badge.fury.io/js/appcelerator.svg)](http://badge.fury.io/js/appcelerator)
+# @titanium/appcelerator
+
+[![@titanium/appcelerator](https://img.shields.io/npm/v/@titanium/appcelerator.png)](https://www.npmjs.com/package/@titanium/appcelerator)
+
+---
+> ***This is an attempt to create a dual installer for Appcelerator AND Titanium that will work after the End-of-Life (EOL) for this Axway Amplify product.***
+
+
+This project will also update product with security patches to reduce vulnerabilities that might exist.
+
+
+---
+
+## Appcelerator Installer [![Build Status](https://travis-ci.org/appcelerator/appc-install.svg?branch=master)](https://travis-ci.org/appcelerator/appc-install) [![npm version](https://badge.fury.io/js/appcelerator.svg)](http://badge.fury.io/js/appcelerator)
 
 This is the installer for the Appcelerator Platform software stack.
 
