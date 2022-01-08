@@ -1,6 +1,6 @@
 {
   "name": "@titanium/appcelerator",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "description": "⭐  Axway Amplify command-line (CLI) tool for installing Appcelerator Titanium SDK",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -14,7 +14,7 @@
     "test": "cross-env APPC_TEST=1 JUNIT_REPORT_PATH=junit_report.xml nyc mocha test/**/*_test.js",
     "lint": "eslint . --fix",
     "list": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
-    "prep": "npm install --ignore-scripts && npm run list",
+    "prep": "npm install --ignore-scripts",
     "test2": "npm run prep",
     "prepublishOnly": "git pull && npm run prep && bump insane",
     "prepublishOnly2": "git pull && npm run prep && npm audit fix && bump insane"
@@ -34,27 +34,26 @@
   ],
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^7.18.0",
-    "eslint-config-axway": "^5.0.0",
-    "eslint-plugin-mocha": "^8.0.0",
-    "lodash": "^4.17.20",
-    "mocha": "^8.2.1",
-    "mocha-jenkins-reporter": "^0.4.5",
+    "eslint": "^8.6.0",
+    "eslint-plugin-mocha": "^10.0.3",
+    "lodash": "^4.17.21",
+    "mocha": "^9.1.3",
+    "mocha-jenkins-reporter": "^0.4.7",
     "nyc": "^15.1.0",
     "should": "^13.2.3"
   },
   "dependencies": {
-    "@titanium/titanium": "^5.4.5",
-    "async": "^3.2.0",
-    "chalk": "^4.1.0",
-    "debug": "^4.3.1",
+    "@titanium/titanium": "^5.4.7",
+    "async": "^3.2.2",
+    "chalk": "^5.0.0",
+    "debug": "^4.3.3",
     "npm-install-checks": "^4.0.0",
-    "pac-proxy-agent": "^4.1.0",
+    "pac-proxy-agent": "^5.0.0",
     "progress": "^2.0.3",
     "request": "^2.88.2",
-    "semver": "^7.3.4",
-    "strip-ansi": "^6.0.0",
-    "tar": "^4.4.13"
+    "semver": "^7.3.5",
+    "strip-ansi": "^7.0.1",
+    "tar": "^6.1.11"
   },
   "engines": {
     "node": ">=12.13.0"
