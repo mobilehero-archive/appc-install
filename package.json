@@ -1,6 +1,6 @@
 {
   "name": "@titanium/appcelerator",
-  "version": "6.0.40",
+  "version": "6.0.41",
   "description": "⭐  Axway Amplify command-line (CLI) tool for installing Appcelerator Titanium SDK",
   "main": "index.js",
   "author": "Jeff Haynie",
@@ -37,13 +37,13 @@
     "eslint": "^8.9.0",
     "eslint-plugin-mocha": "^10.0.3",
     "lodash": "^4.17.21",
-    "mocha": "^9.2.0",
+    "mocha": "^9.2.1",
     "mocha-jenkins-reporter": "^0.4.7",
     "nyc": "^15.1.0",
     "should": "^13.2.3"
   },
   "dependencies": {
-    "@titanium/titanium": "^5.4.47",
+    "@titanium/titanium": "^5.4.49",
     "async": "^3.2.3",
     "chalk": "^5.0.0",
     "debug": "^4.3.3",
